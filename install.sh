@@ -1,21 +1,25 @@
 #!/bin/bash
-
 cd "$HOME" || exit
 
-echo "[+] Downloading JINOXXDARK script..."
-curl -sL -o jinoxx.sh "https://raw.githubusercontent.com/jinoxxdark/JINOXXDARK/main/jinoxx.sh"
+echo "[+] Downloading JINOXXDARK script (jinoff.sh)..."
 
-if [ ! -f jinoxx.sh ]; then
-    echo "[!] Download failed. Please check the URL."
+curl -sL -o jinoff.sh "https://raw.githubusercontent.com/jinoxxdark/JINOXXDARK/main/jinoff.sh"
+
+# لو الرابط غلط سيعطي 404 → نوقف التثبيت
+if ! grep -q "#!" jinoff.sh; then
+    echo "[!] ERROR: Failed to download jinoff.sh (Maybe 404?)"
+    echo "[!] تأكد أن الملف موجود في GitHub ومساره صحيح."
+    rm jinoff.sh
     exit 1
 fi
 
-chmod +x jinoxx.sh
+chmod +x jinoff.sh
 
-echo "[+] Installing command to PATH..."
-mv jinoxx.sh "$PREFIX/bin/JINOXXDARK" 2>/dev/null || sudo mv jinoxx.sh /usr/local/bin/JINOXXDARK
+mkdir -p "$PREFIX/bin"
+mv jinoff.sh "$PREFIX/bin/JINOXXDARK"
+
 chmod +x "$PREFIX/bin/JINOXXDARK"
 
 echo ""
 echo "[✔] Installation complete!"
-echo "Use the tool by typing: JINOXXDARK"
+echo "Run the tool by typing: JINOXXDARK"
